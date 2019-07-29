@@ -20,6 +20,15 @@
 
 ## Widgets
 - Widgets are components, the building blocks of our user interface
+- Widget is a special type of object:
+```dart 
+import 'package:flutter/material.dart';
+class MyApp extends StatelessWidget{
+  Widget build(BuildContext context){
+      return MaterialApp();
+   }
+}
+```
 
 ## Main method
 - `void main(){}` is special method where dart programming starts
