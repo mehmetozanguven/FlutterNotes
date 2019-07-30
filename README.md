@@ -23,6 +23,11 @@
 - Widget is a special type of object:
 ```dart 
 import 'package:flutter/material.dart';
+
+void main(){
+  runApp(MyApp());
+}
+ 
 class MyApp extends StatelessWidget{
   Widget build(BuildContext context){
       return MaterialApp();
@@ -33,7 +38,92 @@ class MyApp extends StatelessWidget{
 ## Main method
 - `void main(){}` is special method where dart programming starts
 
+## runApp()
+- runApp is a normal function but not written by us written by the Flutter team and it is in `material.dart`
+- runApp tries to take our widget tree and draw something onto screen that's based on that tree.
 
 ## Data types in Dart
 - Text => Strings
 - Numbers => Integers = 2, 30 Floats/Doubles => 20.99
+
+## Constructor
+```dart
+class Person{
+  String name;
+  int age;
+  
+  Person(String name, int age){
+    this.name = name;
+    this.age = age;
+  }
+  /// shortcut of the below constructor
+  Person({this.name, this.age});
+}
+```
+
+## Named Parameters
+- Wrap your parameters with curly brackets `{ }`
+```dart
+void main(){
+  runApp(MyApp());
+}
+
+void sample(name:'ozan', age:24);
+void sample(age:22, name:'other');
+
+class MyApp extends StatelessWidget{
+  Widget build(BuildContext context){
+      return MaterialApp();
+   }
+   
+   void sample({String name, int age}){
+   ///...
+   }
+}
+```
+
+### Default Parameters
+```dart
+void main(){
+  runApp(MyApp());
+}
+
+void sample(name:'ozan', age:24);
+void sample(age:22, name:'other');
+
+class MyApp extends StatelessWidget{
+  Widget build(BuildContext context){
+      return MaterialApp();
+   }
+   
+   void sample({String name='test', int age=30}){
+   ///...
+   }
+}
+```
+
+### @required annotation
+```dart
+void main(){
+  runApp(MyApp());
+}
+
+void sample(name:'ozan', age:24);
+void sample(age:22, name:'other');
+
+class MyApp extends StatelessWidget{
+  Widget build(BuildContext context){
+      return MaterialApp();
+   }
+   
+   void sample({@required String name, @required int age}){
+   ///...
+   }
+}
+```
+
+## Shortcut of Methods
+- If functions which only have one and exactly one expression, then it can be write as a arrow function
+```dart
+void() => runApp(MyApp());
+```
