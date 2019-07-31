@@ -127,3 +127,189 @@ class MyApp extends StatelessWidget{
 ```dart
 void() => runApp(MyApp());
 ```
+
+## Scaffold Widget
+- It has the job for creating base design structure (make ui looks like an real application)
+
+```dart
+class MyApp extends StatelessWidget{
+  Widget build(BuildContext context){
+      return MaterialApp(
+        home: Scaffold(
+          appBar: AppBar(title: Text("My First App'),),
+          body: Text('This is text'),
+      );
+   }
+}
+```
+
+## Different Types of Widgets
+
+- Container() widget belongs to the both sides
+
+### 1 - Output & Input (Visible)
+- Drawn onto the screen, "What the user sees"
+- RaisedButton(), Text(), Card()
+
+### 2 -  Layout & Control (Invisible)
+- Give your app structure and control how visible widgets are drawn onto the screen
+- Row(), Column(), ListView()
+
+## Column vs Row Widgets
+- If we want items below each other, then use `Column()`
+- If we want items next to each other, then use `Row()`
+
+```dart
+class MyApp extends StatelessWidget{
+  Widget build(BuildContext context){
+      return MaterialApp(
+        home: Scaffold(
+          appBar: AppBar(title: Text("My First App'),),
+          body: Column(
+              children: [
+                Text('The Question'),
+                RaisedButton(child: Text("Answer 1"), onPressed: null)),
+                ]
+          )
+      );
+   }
+}
+```
+
+
+## Functions 
+
+```dart
+class MyApp extends StatelessWidget{
+
+  void answerQuestion(){
+    print("answer chosen");
+  }
+  
+  Widget build(BuildContext context){
+      return MaterialApp(
+        home: Scaffold(
+          appBar: AppBar(title: Text("My First App'),),
+          body: Column(
+              children: [
+                Text('The Question'),
+                RaisedButton(child: Text("Answer 1"), onPressed: answerQuestion())),
+                ]
+          )
+      );
+   }
+}
+```
+- This code will gives an error, using the  `onPressed: answerQuestion()` without paranthesis, we are saying the flutter "Hey Flutter, when you runs `build()` method, onPressed value of RaisedButton is the **execution of the answerQuestion()** method which is only `print()`statement.
+- However Flutter expects us a function not an print statement, therefore we should pass a **pointer of that function**, we can do that via removing paranthesis: `RaisedButton(child: Text("Answer 1"), onPressed: answerQuestion))`
+
+
+### Anonymous Functions
+- We can archieve same result we did before in the `onPressed: answerQuestion` via anonmyous function. Example that above is an named function.
+
+```dart
+ Widget build(BuildContext context){
+      return MaterialApp(
+        home: Scaffold(
+          appBar: AppBar(title: Text("My First App'),),
+          body: Column(
+              children: [
+                Text('The Question'),
+                RaisedButton(child: Text("Answer 1"), onPressed: () => print("Answer Chosen"))
+                ),
+                ]
+          )
+      );
+   }
+```
+
+- Note: Anonymous function doesn't run immediately, if we wanted this, we would add `()` at the end of the anonymous function:
+
+```dart
+ Widget build(BuildContext context){
+      return MaterialApp(
+        home: Scaffold(
+          appBar: AppBar(title: Text("My First App'),),
+          body: Column(
+              children: [
+                Text('The Question'),
+                RaisedButton(child: Text("Answer 1"), onPressed: () => print("Answer Chosen")())
+                ),
+                ]
+          )
+      );
+   }
+```
+
+## Using StatelessWidget incorrectly!!!
+```dart
+class MyApp extends StatelessWidget{
+  var questionIndex = 0;
+  
+  void answerQuestion(){
+    questionIndex = questionIndex + 1;
+    print(questionIndex);
+  }
+  
+  Widget build(BuildContext context){
+    var questions = [
+      'What\'s your favorite color?',
+      'What\'s your favorite animal?'
+      ];
+      
+      return MaterialApp(
+        home: Scaffold(
+          appBar: AppBar(title: Text("My First App'),),
+          body: Column(
+              children: [
+                Text(questionIndex),
+                RaisedButton(child: Text("Answer 1"), onPressed: answerQuestion())),
+                ]
+          )
+      );
+   }
+}
+```
+- In this peace of codes, we expect that when we press the button, our text changes to 'What's your favorite animal?'
+- But It doesn't work. Because **state of the widget didn't change**
+
+### StatefulWidget
+- State is data/information used by our App.
+
+```dart
+class MyApp extends StatefulWidget{
+   State<StatefulWidget> createState(){
+    return MyAppState();
+   }
+}
+
+class MyAppState extends State<MyApp>{
+  var questionIndex = 0;
+  
+  void answerQuestion(){
+   setState( () {
+     questionIndex = questionIndex + 1;
+     }
+    );
+    print(questionIndex);
+  }
+  
+  Widget build(BuildContext context){
+    var questions = [
+      'What\'s your favorite color?',
+      'What\'s your favorite animal?'
+      ];
+      
+      return MaterialApp(
+        home: Scaffold(
+          appBar: AppBar(title: Text("My First App'),),
+          body: Column(
+              children: [
+                Text(questionIndex),
+                RaisedButton(child: Text("Answer 1"), onPressed: answerQuestion())),
+                ]
+          )
+      );
+   }
+}
+```
