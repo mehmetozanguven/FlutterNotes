@@ -313,3 +313,81 @@ class MyAppState extends State<MyApp>{
    }
 }
 ```
+
+### What is happening when setState() is executed?
+- `setState()` is a function that forces Flutter to re-render the user interface , not an entire user interface
+- It calls the `build()` where any state class
+- `build()`method re-builds its widget tree
+- Sometimes it is inefficient to re-build all widgets inside the `build()`method. Flutter has a mechanism for that which only redraws(re-render) necessary widgets.
+
+
+## Private Properties
+- To make class as private use `_className`
+- To make fields as private `var _questionIndex`
+- To make methods as private `void _methodName()`
+
+
+## How Stateless and Stateful widget's build method runs?
+- Stateless widget's `build()` method runs when data comes from output changes. For example, let's say we give a value in the constructor of stateless widget, when this data is changed then `build()`method of stateless widget will be called
+- Stateful widget's `build()` method runs when 
+
+```dart
+class Question extends StatelessWidget{
+  final String questionText;
+  
+  Question(this.questionText);
+  
+  @override
+  Widget build(BuildContext context){
+      return Text(questionText);
+  }
+}
+```
+
+```dart
+import './Question.dart';
+class MyApp extends StatefulWidget{
+   State<StatefulWidget> createState(){
+    return MyAppState();
+   }
+}
+
+class MyAppState extends State<MyApp>{
+  var questionIndex = 0;
+  
+  void answerQuestion(){
+   setState( () {
+     questionIndex = questionIndex + 1;
+     }
+    );
+    print(questionIndex);
+  }
+  
+  Widget build(BuildContext context){
+    var _questionIndex = 0;
+    var questions = [
+      'What\'s your favorite color?',
+      'What\'s your favorite animal?'
+      ];
+      void _answerQuestion(){
+        setState( (){
+          _questionIndex = _questionIndex + 1;
+        })
+      }
+      
+      return MaterialApp(
+        home: Scaffold(
+          appBar: AppBar(title: Text("My First App'),),
+          body: Column(
+              children: [
+                Question(questions[questionIndex]),
+                RaisedButton(child: Text("Answer 1"), onPressed: _answerQuestion)),
+                ]
+          )
+      );
+   }
+}
+```
+- In this example, when button pressed, because of outer data change in the `build()` of MyAppState class, stateless widget `Question(...)`'s build() method will call.
+- Besides that, `questionText` property inside the stateless widget could be changes internally (inside `Question`class itself). However this change doesn't affect the user interface, because `build()` method of `Question` class doesn't run. Therefore we should do something in such a way `questionText` propery can't be changed after initiliazied. 
+  - To do that we use `final` keyword. 
