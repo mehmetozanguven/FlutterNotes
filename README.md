@@ -391,3 +391,49 @@ class MyAppState extends State<MyApp>{
 - In this example, when button pressed, because of outer data change in the `build()` of MyAppState class, stateless widget `Question(...)`'s build() method will call.
 - Besides that, `questionText` property inside the stateless widget could be changes internally (inside `Question`class itself). However this change doesn't affect the user interface, because `build()` method of `Question` class doesn't run. Therefore we should do something in such a way `questionText` propery can't be changed after initiliazied. 
   - To do that we use `final` keyword. 
+  
+  ## Enums and Constructors
+  
+  ### Constructor
+```dart
+  class Person{
+    String name;
+    int age;
+    
+    Person({this.name = "sample", this.age=30});
+    
+    // another constructor 
+    Person.veryOdl(this.name){
+      age=60;
+    }
+}
+```
+`var p1 = Person.veryOld("john");`
+
+### Enums
+```dart
+enum SomeType{
+  option1,
+  option2
+}
+```
+- `SomeType.option1` 
+
+## Const vs Final variables
+- Use `final` if a value doesn't change from the point of time when our program runs
+- Final can be initialized with value.
+- Final it's a runtime constant value, we use this keyword because at the time we are writing code we don't know that the final value will be.
+
+- Use `const` , if we know the value at the time we are writing code
+- Const, it is a compile time constant
+
+- const can be used in different ways:
+```dart
+const dummy = ['Hello']; // variable dummy is constant, can't be changed
+dummy.add('Jhohn');
+dummy = 5 // error
+
+var dummy = const ['Hello'] // now hello list is constant
+dummy.add('John');  // given an errr that says unmodifiable list etc..
+dummy = 5 // allowed, because only hello list is constant
+```
